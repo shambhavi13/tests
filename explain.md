@@ -76,13 +76,14 @@ Question 4: What factors affect the time to close a ticket?
 For this question we need to identify relevant features by exploring the dataset 
 and extracting the most interesting properties that reveal somehow clear correlations
 1. Extract relevant complaint type from the main dataset
-2. Time series analysis: we can try to focus on 
-    -- period of the year (frequency of complaints over the year)
-    -- time of day,
-    -- resolution time clear comparison over the years (this is a key point of this analysis, 
+2. Time series analysis: we can try to focus on <br>
+    -- period of the year (frequency of complaints over the year) <br>
+    -- time of day <br>
+    -- resolution time clear comparison over the years (this is a key point of this analysis
        to provide a measure of how much has the 311 efficiency improved/got worse over the years)
+
 In `Question_4 notebook` I only performed resolution time over the years. The results shows
-Not all complaint types have been existing since 2010, and at the same time, 
+not all complaint types have been existing since 2010, and at the same time, 
 not all of them kept existing until 2017 (GENERAL CONSTRUCTION, e.g.). 
 Therefore, over the years the nature of the data has changed, and this might be 
 difficult to keep into consideration to find relevant correlations; 
