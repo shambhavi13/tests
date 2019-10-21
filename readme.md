@@ -1,10 +1,7 @@
 ---
 Intial Preprocessing
 ---
-The dataset provided is massive in size (11GB) with around 21M rows and 41 columns. 
-Preprocessing steps is very important to remove unused columns. Furthermore, 
-it is a good approach to initially work with a chunk of the dataset before using the dataset in entirety. 
-Following are the steps undertaken to pre-process the dataset:
+The dataset provided is massive in size (11GB) with around 21M rows and 41 columns. Preprocessing steps is very important to remove unused columns. Furthermore, it is a good approach to initially work with a chunk of the dataset before using the dataset in entirety. Following are the steps undertaken to pre-process the dataset:
 
 1. Use Dask: Its a open source library and is very flexible for parallel computing
 2. Using pandas chunk size it basically loads the file in smaller chunks.
@@ -19,16 +16,12 @@ After initial review of the data, following pre-processing steps were executed:
 ---
 Question 1: What are the number of complaints per department for each zip code?
 ---
-The approach is to use dataframe groupby function to calculate the total count
-of complaint type per department and incident zip.
+The approach is to use dataframe groupby function to calculate the total countof complaint type per department and incident zip.
 
 ---
 Question 2: Anomalous complaints for department for each zip code?
 ---
-The approach I employed was to set a numeric threshold to identify anomalous complaints. 
-Since complaint type is categorical, it can be standard to characterize by percentage.
-To solve this calculated the total number of complaints and total count of complaints
-per department for each department. then we calculate percentage threshold can be 25th and 75th percentile
+The approach I employed was to set a numeric threshold to identify anomalous complaints. Since complaint type is categorical, it can be standard to characterize by percentage.To solve this calculated the total number of complaints and total count of complaints per department for each department. then we calculate percentage threshold can be 25th and 75th percentile
 ```coffeescript
 Q1 = df.Percentage.quantile(0.25)
 Q3 = df.Percentage.quantile(0.75)
@@ -39,46 +32,33 @@ After we got the IQR score, we can find the anomalous complaints
 ```coffeescript
 print(df['complaint_type'] < (Q1 - 1.5 * IQR)) |(df['complaint_type'] > (Q3 + 1.5 * IQR))
 ```
-------
+----
 Question 3: For each zipcode find which other zipcode they are most and least similar
 to. Does this change over time? Is so, how
--------
-To find the similarities between zipcodes, firstly, the top 10 complaint types were identified. 
-Among these, "Noise" is the top complaint. Next, the few top ‘incident zips’ were identified 
-which have the most complaints of this kind. 
+----
+To find the similarities between zipcodes, firstly, the top 10 complaint types were identified. Among these, "Noise" is the top complaint. Next, the few top ‘incident zips’ were identified which have the most complaints of this kind. 
 ```coffeescript
 	incident_zip	count
 0	11226           63189
 1	10031	        60765
 2	10467	        54756
 ```
-In the above results snapshot we can say that incident zip 11226 is most similar to 
-10031 because the complaint count is closer.
+In the above results snapshot we can say that incident zip 11226 is most similar to 10031 because the complaint count is closer.
 
 Moving forward, two analysis have been conducted:
 
 a). **_Based on geographic location (Cluster data)_**:
-For a given complaint type, a cluster graph has been plotted to demonstrate the concentration 
-of complaints with respect to the latitude and longitude of the incident. 
-It can be seen from the data that the incidents seem to be clustering heavily in two factions 
-of geographic location and provide a trend for the zip codes. It may be that, 
-in this case, the noise complaints come largely for some defined neighborhoods due to their 
-own social/economic reasons.
+For a given complaint type, a cluster graph has been plotted to demonstrate the concentration of complaints with respect to the latitude and longitude of the incident. It can be seen from the data that the incidents seem to be clustering heavily in two factions of geographic location and provide a trend for the zip codes. It may be that, in this case, the noise complaints come largely for some defined neighborhoods due to their own social/economic reasons.
 
 b). **_Based on incident date_**:
-This intends to observe that for a given complaint type and zip code, 
-has the number of incidents drastically changed after 4 years (in this case 2011 and 2015). 
-The following table shows the trend of how the incident count has changed 
-for any zip code between 2011 and 2015.
+This intends to observe that for a given complaint type and zip code, has the number of incidents drastically changed after 4 years (in this case 2011 and 2015). The following table shows the trend of how the incident count has changed for any zip code between 2011 and 2015.
 
 ```coffeescript
     incident_zip	2011_count	2015_count
 1	11226	        2313	    6307
 2	10032	        2090	    5301
 ```
-From above results ## We can analyse from the above bar plot the number of noise complaints 
-have drastically increased over year( 2011 to 2015) but that similarity between zip codes hasn't changed. 
-The zipcode 11226 and 10032 still closer in terms of noise complaint counts
+From the above bar plot the number of noise complaints have drastically increased over year( 2011 to 2015) but that similarity between zip codes hasn't changed. The zipcode 11226 and 10032 still closer in terms of noise complaint counts
 
 ---
 Question 4: What factors affect the time to close a ticket?
